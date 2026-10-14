@@ -1,30 +1,30 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 
+// 1. Importación de la imagen local desde la carpeta assets
+import imagenPortada from '../assets/pokeapinative.png';
+
 export default function Informativa() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image
-        source={{ uri: 'https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png' }}
-        style={styles.logo}
-        resizeMode="contain"
-      />
+      {/* 2. Renderizado de la imagen local */}
+      <View style={styles.contenedorImagen}>
+        <Image
+          source={imagenPortada}
+          style={styles.imagenPortada}
+          resizeMode="cover"
+        />
+      </View>
+
       <Text style={styles.title}>Acerca de la Aplicación</Text>
-      
+
       <View style={styles.card}>
-        <Text style={styles.subtitle}>Proyecto React Native + Expo</Text>
+        <Text style={styles.subtitle}>Proyecto React Native</Text>
         <Text style={styles.description}>
-          Aplicación desarrollada para la materia de Tecnologías Web. Permite explorar la colección de Pokémon, realizar búsquedas en tiempo real y consultar detalles individuales.
+          Realizar búsquedas en tiempo real, consultar detalles e interactuar con juegos dinámicos.
         </Text>
       </View>
 
-      <View style={styles.card}>
-        <Text style={styles.subtitle}>Tecnologías Integradas</Text>
-        <Text style={styles.item}>• React Native & Expo</Text>
-        <Text style={styles.item}>• React Navigation (Bottom Tabs)</Text>
-        <Text style={styles.item}>• PokeAPI (REST API)</Text>
-        <Text style={styles.item}>• GitHub Codespaces</Text>
-      </View>
     </ScrollView>
   );
 }
@@ -35,10 +35,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f8f9fa',
   },
-  logo: {
-    width: 200,
-    height: 80,
+  contenedorImagen: {
+    width: '100%',
+    height: 180,
+    borderRadius: 12,
+    overflow: 'hidden',
     marginBottom: 20,
+    elevation: 3,
+  },
+  imagenPortada: {
+    width: '100%',
+    height: '100%',
   },
   title: {
     fontSize: 22,
