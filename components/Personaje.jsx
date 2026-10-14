@@ -74,8 +74,3 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
-git add .
-git commit -m "Filtro en tiempo real"
-git push
