@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import { 
+  View, 
+  Text, 
+  FlatList, 
+  Image, 
+  StyleSheet, 
+  ActivityIndicator, 
+  TextInput 
+} from 'react-native';
 
 export default function Coleccion() {
   const [personajes, setPersonajes] = useState([]);
+  const [busqueda, setBusqueda] = useState('');
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    // Ejemplo consumiendo PokeAPI (si usas DBZ API, cambia la URL a: https://dragonball-api.com/api/characters)
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=20')
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=150')
       .then((respuesta) => respuesta.json())
       .then((datos) => {
         setPersonajes(datos.results);
@@ -18,6 +26,11 @@ export default function Coleccion() {
         setCargando(false);
       });
   }, []);
+
+  // Filtrar los personajes según el texto ingresado en tiempo real
+  const personajesFiltrados = personajes.filter((personaje) =>
+    personaje.name.toLowerCase().includes(busqueda.toLowerCase())
+  );
 
   if (cargando) {
     return (
@@ -30,12 +43,21 @@ export default function Coleccion() {
 
   return (
     <View style={styles.container}>
+      {/* Campo de búsqueda */}
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Buscar personaje o pokémon..."
+        value={busqueda}
+        onChangeText={(texto) => setBusqueda(texto)}
+      />
+
       <FlatList
-        data={personajes}
+        data={personajesFiltrados}
         keyExtractor={(item) => item.name}
         renderItem={({ item, index }) => {
-          // Obtener la imagen del Pokémon basándonos en su ID
-          const id = index + 1;
+          // Obtención de ID basándose en la URL de la API
+          const urlParts = item.url.split('/');
+          const id = urlParts[urlParts.length - 2];
           const imagenUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
           return (
@@ -56,6 +78,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     padding: 10,
   },
+  searchInput: {
+    height: 45,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
   center: {
     flex: 1,
     justifyContent: 'center',
@@ -73,9 +104,6 @@ const styles = StyleSheet.create({
     padding: 12,
     marginVertical: 6,
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
     elevation: 3,
   },
   image: {
@@ -89,13 +117,3 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 });
-
-
-
-
-
-
-
-git add .
-git commit -m "Consumo de API"
-git push
