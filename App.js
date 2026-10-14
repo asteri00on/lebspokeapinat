@@ -33,9 +33,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-
-
-git add .
-git commit -m "Navegación con 6 componentes"
-git push
